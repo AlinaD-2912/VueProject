@@ -82,11 +82,10 @@ const addSandwich = (): void => {
 }
 
 
+// Fix: removing sandwich by matching object instead of by index
+// splice replaced by filter and removing by id 
 const removeSandwich = (sandwichToRemove: Sandwich): void => {
-    const index = sandwichsList.value.indexOf(sandwichToRemove)
-    if (index !== -1) {
-        sandwichsList.value.splice(index, 1)
-    }
+    sandwichsList.value = sandwichsList.value.filter(s => s.id !== sandwichToRemove.id)
 }
 
 const totalSandwichs = computed(() => sandwichsList.value.length)
