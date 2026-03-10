@@ -96,9 +96,9 @@ const filteredList = computed(() => {
     <div>
         <button @click="generateSandwich" class="btn-generate">Générer un sandwich</button>
 
-        <p v-if="!sandwich.bread">Sandwich is not yet generated</p>
-        <p v-else>Generated sandwich with ingredients : Bread : {{ sandwich.bread }}, Sauce : {{ sandwich.sauce }},
-            Cheese : {{sandwich.cheese }}, Filling : {{ sandwich.filling }}
+        <p v-if="!sandwich.bread">Sandwich n’est pas encore généré</p>
+        <p v-else>Sandwich généré avec des ingrédients : Pain : {{ sandwich.bread }}, Sauce : {{ sandwich.sauce }},
+            Fromage : {{sandwich.cheese }}, Garniture : {{ sandwich.filling }}
         </p>
     </div>
 
@@ -108,7 +108,7 @@ const filteredList = computed(() => {
     <ul>
         <!-- filter by bread -->
         <select v-model="filterBread" v-if="sandwichsList.length">
-            <option value="">All</option>
+            <option value="">Tout</option>
             <option v-for="bread in breads" :key="bread" :value="bread">{{ bread }}</option>
         </select>
 
