@@ -30,6 +30,15 @@ const fillings = [
     'Bacon'
 ]
 
+// Fix : interface sandwich used instead of an array, and id added
+interface Sandwich {
+    id: number
+    bread: string
+    sauce: string
+    cheese: string
+    filling: string
+}
+
 const sandwich = ref({
     bread: "",
     sauce: "",
@@ -37,7 +46,8 @@ const sandwich = ref({
     filling: ""
 })
 
-const sandwichsList = ref<{ bread: string, sauce: string, cheese: string, filling: string }[]>([])
+const sandwichsList = ref<Sandwich[]>([])
+let sandwichId = 0
 
 const generateSandwich = (): void => {
     sandwich.value.bread = breads[Math.floor(Math.random() * breads.length)]
@@ -68,11 +78,15 @@ const addSandwich = (): void => {
     }
 
     // creates a copy of sandwich const to avoid pushing a reference
-    sandwichsList.value.push({ ...sandwich.value })
+    sandwichsList.value.push({ id: sandwichId++, ...sandwich.value })
 }
 
-const removeSandwich = (index: number): void => {
-    sandwichsList.value.splice(index, 1)
+
+const removeSandwich = (sandwichToRemove: Sandwich): void => {
+    const index = sandwichsList.value.indexOf(sandwichToRemove)
+    if (index !== -1) {
+        sandwichsList.value.splice(index, 1)
+    }
 }
 
 const totalSandwichs = computed(() => sandwichsList.value.length)
@@ -112,10 +126,11 @@ const filteredList = computed(() => {
             <option v-for="bread in breads" :key="bread" :value="bread">{{ bread }}</option>
         </select>
 
-        <li v-for="(sandwich, index) in filteredList" :key="index">Sandwich {{ index + 1 }}: {{ sandwich.bread }}, {{
+        <li v-for="(sandwich, index ) in filteredList" :key="sandwich.id">
+            Sandwich {{ index + 1 }}: {{ sandwich.bread }}, {{
             sandwich.sauce }},
             {{ sandwich.cheese }}, {{ sandwich.filling }}
-            <button @click="removeSandwich(index)" class="btn-delete">Supprimer</button>
+            <button @click="removeSandwich(sandwich)" class="btn-delete">Supprimer</button>
         </li>
         <h2 v-if="sandwichsList.length">Total : {{ totalSandwichs }}</h2>
     </ul>
